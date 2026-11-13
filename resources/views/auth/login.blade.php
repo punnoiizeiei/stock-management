@@ -113,10 +113,6 @@
         </form>
 
         <div class="text-center mt-3 pt-3 border-top">
-            <div class="mb-2">
-                <span class="small text-muted">ต้องการสร้างบัญชีแอดมินใหม่?</span>
-                <a href="{{ route('register') }}" class="small text-decoration-none fw-semibold ms-1">ลงทะเบียน</a>
-            </div>
             <a href="{{ route('dashboard') }}" class="small text-decoration-none text-muted">
                 <i class="bi bi-arrow-left me-1"></i> กลับสู่หน้าหลัก (ไปเบิกหมึก)
             </a>
