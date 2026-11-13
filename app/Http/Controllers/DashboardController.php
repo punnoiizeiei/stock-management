@@ -55,8 +55,8 @@ class DashboardController extends Controller
 
         // Chart 2: Top requisitions by Department
         $deptRequisitions = InkTransaction::where('type', 'out')
-            ->selectRaw('COALESCE(department_name, "ไม่ระบุ") as dept, SUM(quantity) as total')
-            ->groupBy('dept')
+            ->selectRaw("COALESCE(department_name, 'ไม่ระบุ') as dept, SUM(quantity) as total")
+            ->groupByRaw("COALESCE(department_name, 'ไม่ระบุ')")
             ->orderBy('total', 'desc')
             ->take(6)
             ->pluck('total', 'dept');
