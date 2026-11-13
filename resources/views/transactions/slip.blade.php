@@ -48,13 +48,11 @@
             <!-- Header -->
             <div class="row pb-3 mb-4 border-bottom align-items-center">
                 <div class="col-8">
-                    <div class="d-flex align-items-center gap-2 mb-1">
-                        <span class="p-2 bg-dark text-white rounded-2 d-inline-flex">
-                            <i class="bi bi-printer-fill fs-5"></i>
-                        </span>
+                    <div class="d-flex align-items-center gap-3 mb-1">
+                        <img src="{{ asset('images/logo.jpg') }}" alt="โลโก้ บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด" class="rounded-3 shadow-sm" style="height: 52px; width: auto; object-fit: cover;">
                         <div>
-                            <h4 class="fw-bold mb-0">ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์</h4>
-                            <small class="text-muted">Ink Stock & Inventory Management System</small>
+                            <h4 class="fw-bold mb-0 text-dark">บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด</h4>
+                            <small class="text-muted">ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์ (Ink Stock System)</small>
                         </div>
                     </div>
                 </div>
@@ -173,7 +171,7 @@
             </div>
 
             <div class="text-center text-muted small mt-5 pt-3 border-top">
-                พิมพ์เมื่อ: {{ \Carbon\Carbon::now()->locale('th')->translatedFormat('d F Y H:i น.') }} &bull; เอกสารสร้างจากระบบจัดการสต็อกหมึกพิมพ์
+                พิมพ์เมื่อ: {{ \Carbon\Carbon::now()->locale('th')->translatedFormat('d F Y H:i น.') }} &bull; เอกสารอย่างเป็นทางการออกโดย บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด
             </div>
         </div>
     </div>

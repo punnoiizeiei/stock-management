@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'ระบบเบิก-รับหมึกพิมพ์') - Ink Stock Manager</title>
+    <title>@yield('title', 'ระบบเบิก-รับหมึกพิมพ์') - บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('images/logo.jpg') }}">
 
     <!-- Google Fonts: Prompt -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,12 +131,10 @@
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
         <div class="container-fluid px-lg-4">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('dashboard') }}">
-                <span class="p-2 bg-primary text-white rounded-3 d-inline-flex align-items-center justify-content-center shadow-sm">
-                    <i class="bi bi-printer-fill fs-5"></i>
-                </span>
+                <img src="{{ asset('images/logo.jpg') }}" alt="โลโก้ บิ๊กล็อต โฮมโปรดักส์" class="rounded-3 shadow-sm" style="height: 42px; width: auto; object-fit: cover;">
                 <div>
-                    <div class="fw-bold fs-5 text-white lh-1">InkStock</div>
-                    <small class="text-white-50" style="font-size: 0.72rem;">ระบบจัดการสต็อกและเบิก-รับหมึก</small>
+                    <div class="fw-bold fs-6 text-white lh-1">บิ๊กล็อต โฮมโปรดักส์</div>
+                    <small class="text-white-50" style="font-size: 0.72rem;">บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด &bull; ระบบเบิก-รับหมึก</small>
                 </div>
             </a>
 
@@ -302,7 +301,7 @@
     <footer class="py-3 text-center text-muted small">
         <div class="container-fluid px-lg-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
             <div>
-                <strong>ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์ (Ink Stock System)</strong> &copy; {{ date('Y') }}
+                <strong>บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด</strong> &copy; {{ date('Y') }} &bull; ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์
             </div>
             <div>
                 พัฒนาด้วย Laravel {{ app()->version() }} &bull; PHP {{ PHP_VERSION }} &bull; SQLite

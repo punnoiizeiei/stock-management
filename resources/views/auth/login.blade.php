@@ -52,11 +52,9 @@
     <div class="card-body p-4 p-sm-5">
         <!-- Logo & Header -->
         <div class="text-center mb-4">
-            <div class="d-inline-flex p-3 bg-primary text-white rounded-4 shadow-sm mb-3">
-                <i class="bi bi-shield-lock-fill fs-2"></i>
-            </div>
-            <h4 class="fw-bold mb-1 text-dark">เข้าสู่ระบบผู้ดูแล</h4>
-            <p class="text-muted small mb-0">ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์</p>
+            <img src="{{ asset('images/logo.jpg') }}" alt="โลโก้ บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด" class="rounded-4 shadow-sm mb-3" style="height: 76px; width: auto; object-fit: cover;">
+            <h5 class="fw-bold mb-1 text-dark">บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด</h5>
+            <p class="text-muted small mb-0">ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์ (ผู้ดูแลระบบ)</p>
         </div>
 
         @if(session('success'))
