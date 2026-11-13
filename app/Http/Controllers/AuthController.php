@@ -55,11 +55,14 @@ class AuthController extends Controller
             'department_id' => 'nullable|exists:departments,id',
         ]);
 
+        // First user created in system automatically becomes Admin
+        $role = User::count() === 0 ? 'admin' : 'user';
+
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'user', // newly registered accounts are always regular users
+            'role' => $role,
             'department_id' => $validated['department_id'] ?? null,
         ]);
 

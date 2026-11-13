@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Initial Standard Departments
+        // 1. Initial Standard Departments (idempotent)
         $departments = [
             ['name' => 'ฝ่ายบริหาร / สำนักงานกลาง', 'code' => 'MGT', 'contact_person' => null],
             ['name' => 'แผนกสารสนเทศ (IT)', 'code' => 'IT', 'contact_person' => null],
@@ -28,19 +28,19 @@ class DatabaseSeeder extends Seeder
 
         $deptMap = [];
         foreach ($departments as $d) {
-            $dept = Department::create($d);
+            $dept = Department::firstOrCreate(['name' => $d['name']], $d);
             $deptMap[$d['code']] = $dept;
         }
 
-        // 2. Default Initial Admin Account
-        User::create([
-            'name' => 'ผู้ดูแลระบบ (Admin)',
-            'email' => 'admin@stock.com',
-            'password' => Hash::make('password123'),
-            'role' => 'admin',
-            'department_id' => $deptMap['IT']->id ?? null,
-        ]);
-
-        // (Inks and Transactions are left completely clean for production use)
+        // 2. Default Initial Admin Account (idempotent)
+        User::updateOrCreate(
+            ['email' => 'admin@stock.com'],
+            [
+                'name' => 'ผู้ดูแลระบบ (Admin)',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+                'department_id' => $deptMap['IT']->id ?? null,
+            ]
+        );
     }
 }
