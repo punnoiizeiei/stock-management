@@ -103,14 +103,24 @@
                     </div>
 
                     <!-- Alert & Price -->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold text-primary">ยอดสต็อกคงเหลือปัจจุบัน <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="number" name="current_stock" value="{{ old('current_stock', $ink->current_stock) }}" min="0" class="form-control fw-bold text-success @error('current_stock') is-invalid @enderror" required>
+                            <span class="input-group-text bg-light fw-medium">{{ $ink->unit }}</span>
+                        </div>
+                        <div class="form-text">สามารถปรับเปลี่ยนยอดสต็อกปัจจุบันได้โดยตรง</div>
+                        @error('current_stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div class="col-md-4">
                         <label class="form-label fw-semibold">จุดสั่งซื้อ / เตือนขั้นต่ำ <span class="text-danger">*</span></label>
                         <input type="number" name="min_stock" value="{{ old('min_stock', $ink->min_stock) }}" min="0" class="form-control @error('min_stock') is-invalid @enderror" required>
-                        <div class="form-text">หากสต็อกต่ำกว่าหรือเท่ากับจำนวนนี้ ระบบจะเตือนหมึกใกล้หมด</div>
+                        <div class="form-text">ระบบจะเตือนหากต่ำกว่าจำนวนนี้</div>
                         @error('min_stock') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="form-label fw-semibold">ราคาต่อหน่วย (บาท)</label>
                         <input type="number" step="0.01" name="price_per_unit" value="{{ old('price_per_unit', $ink->price_per_unit) }}" min="0" class="form-control">
                     </div>

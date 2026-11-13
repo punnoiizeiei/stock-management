@@ -130,6 +130,7 @@ class InkController extends Controller
             'unit' => 'required|string|max:50',
             'compatible_printers' => 'nullable|string',
             'location' => 'nullable|string|max:100',
+            'current_stock' => 'required|integer|min:0',
             'min_stock' => 'required|integer|min:0',
             'price_per_unit' => 'nullable|numeric|min:0',
             'notes' => 'nullable|string',
