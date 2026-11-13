@@ -40,15 +40,17 @@
                             <input type="text" 
                                    id="inkSearchInput" 
                                    class="form-control border-start-0 @error('ink_id') is-invalid @enderror" 
-                                   placeholder="🔍 พิมพ์ค้นหารหัสหมึก, ยี่ห้อ, รุ่น, หรือเครื่องพิมพ์ เช่น 003, Canon, Brother, L3110..." 
+                                   placeholder="🔍 คลิกหรือพิมพ์ค้นหารหัสหมึก, ยี่ห้อ, รุ่น, หรือเครื่องพิมพ์ เช่น 003, Canon, Brother, L3110..." 
                                    autocomplete="off">
                             <button class="btn btn-outline-secondary d-none" type="button" id="clearInkBtn" title="ล้างการเลือกเพื่อเลือกใหม่">
                                 <i class="bi bi-x-lg"></i>
                             </button>
                         </div>
                         
-                        <!-- Autocomplete Suggestions List -->
-                        <div id="inkSuggestions" class="dropdown-menu w-100 shadow-lg p-0 mt-1 d-none" style="max-height: 380px; overflow-y: auto; z-index: 1050;">
+                        <!-- Autocomplete Suggestions List (Explicit absolute popup with styling) -->
+                        <div id="inkSuggestions" 
+                             class="position-absolute w-100 bg-white border rounded-3 shadow-lg p-0 mt-1 d-none" 
+                             style="top: 100%; left: 0; max-height: 380px; overflow-y: auto; z-index: 1050; display: none;">
                             <!-- Populated dynamically via JS -->
                         </div>
                     </div>
@@ -275,6 +277,16 @@
         let currentStockAvailable = 0;
         let currentUnit = 'ตลับ';
 
+        function showSuggestions() {
+            inkSuggestions.classList.remove('d-none');
+            inkSuggestions.style.display = 'block';
+        }
+
+        function hideSuggestions() {
+            inkSuggestions.classList.add('d-none');
+            inkSuggestions.style.display = 'none';
+        }
+
         // Build ink search index from the native select options
         const inkItems = [];
         Array.from(inkSelect.options).forEach(opt => {
@@ -297,6 +309,22 @@
 
         // Render autocomplete suggestions
         function renderSuggestions(query = '') {
+            // Case 1: Database has no inks yet
+            if (inkItems.length === 0) {
+                inkSuggestions.innerHTML = `
+                    <div class="p-4 text-center">
+                        <i class="bi bi-inbox text-warning fs-1 d-block mb-2"></i>
+                        <div class="fw-bold text-dark mb-1">ยังไม่มีรายการหมึกพิมพ์ในระบบ</div>
+                        <p class="small text-muted mb-3">เนื่องจากเชื่อมต่อ Database Cloud ใหม่ กรุณาเพิ่มรุ่นหมึกก่อนเบิกครับ</p>
+                        <a href="{{ route('inks.create') }}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-plus-circle me-1"></i> คลิกเพื่อเพิ่มรุ่นหมึกพิมพ์ใหม่
+                        </a>
+                    </div>
+                `;
+                showSuggestions();
+                return;
+            }
+
             query = query.trim().toLowerCase();
             const filtered = query === '' 
                 ? inkItems 
@@ -306,8 +334,13 @@
                 inkSuggestions.innerHTML = `
                     <div class="p-3 text-muted text-center small">
                         <i class="bi bi-search me-1"></i> ไม่พบรุ่นหมึกพิมพ์ที่ตรงกับ "<strong>${escapeHtml(query)}</strong>"
+                        <div class="mt-2">
+                            <a href="{{ route('inks.create') }}" class="text-primary text-decoration-none fw-bold" target="_blank">
+                                <i class="bi bi-plus-circle"></i> คลิกที่นี่เพื่อเพิ่มรุ่นหมึกนี้เข้าระบบ
+                            </a>
+                        </div>
                     </div>`;
-                inkSuggestions.classList.remove('d-none');
+                showSuggestions();
                 return;
             }
 
@@ -344,7 +377,7 @@
             html += '</div>';
 
             inkSuggestions.innerHTML = html;
-            inkSuggestions.classList.remove('d-none');
+            showSuggestions();
         }
 
         function selectInk(id) {
@@ -354,7 +387,7 @@
                 inkSearchInput.value = `[${item.code}] ${item.brand} ${item.model} (${item.color})`;
                 clearInkBtn.classList.remove('d-none');
             }
-            inkSuggestions.classList.add('d-none');
+            hideSuggestions();
             updateInkPreview();
             validateQuantity();
         }
@@ -429,15 +462,19 @@
             }
         });
 
-        // Event: Focus on search input opens suggestions
+        // Event: Click & Focus on search input opens suggestions immediately
         inkSearchInput.addEventListener('focus', function () {
+            renderSuggestions(this.value);
+        });
+
+        inkSearchInput.addEventListener('click', function () {
             renderSuggestions(this.value);
         });
 
         // Event: Click outside closes suggestions
         document.addEventListener('click', function (e) {
             if (!inkSearchInput.contains(e.target) && !inkSuggestions.contains(e.target)) {
-                inkSuggestions.classList.add('d-none');
+                hideSuggestions();
             }
         });
 
