@@ -4,14 +4,15 @@ FROM php:8.3-cli-alpine
 RUN apk add --no-cache \
     sqlite \
     sqlite-dev \
+    postgresql-dev \
     bash \
     libzip-dev \
     zip \
     unzip \
     git
 
-# Install PHP extensions for Laravel & SQLite
-RUN docker-php-ext-install pdo pdo_sqlite zip bcmath
+# Install PHP extensions for Laravel, SQLite & PostgreSQL
+RUN docker-php-ext-install pdo pdo_sqlite pdo_pgsql zip bcmath
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
