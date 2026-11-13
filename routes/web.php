@@ -53,6 +53,10 @@ Route::middleware('admin')->group(function () {
     Route::get('/transactions/stock-in', [TransactionController::class, 'createStockIn'])->name('transactions.stock_in');
     Route::post('/transactions/stock-in', [TransactionController::class, 'storeStockIn'])->name('transactions.stock_in.store');
 
+    // Reset All Transactions / Delete Single Transaction (ล้างประวัติ / เริ่มนับ 1 ใหม่)
+    Route::post('/transactions/reset-history', [TransactionController::class, 'resetHistory'])->name('transactions.reset_history');
+    Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
     // Departments Management
     Route::resource('departments', DepartmentController::class)->except(['create', 'edit', 'show']);
 

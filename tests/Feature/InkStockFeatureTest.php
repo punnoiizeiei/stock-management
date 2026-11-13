@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Department;
 use App\Models\Ink;
+use App\Models\InkTransaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
@@ -235,5 +236,38 @@ class InkStockFeatureTest extends TestCase
         $response->assertSessionHas('success');
 
         $this->assertEquals(15, $ink->fresh()->current_stock);
+    }
+
+    public function test_admin_can_reset_transaction_history_and_restart_sequence(): void
+    {
+        $ink = Ink::create([
+            'code' => 'INK-RESET-01',
+            'name' => 'Reset Test Ink',
+            'brand' => 'Epson',
+            'model' => '003',
+            'color' => 'Black',
+            'color_code' => '#111827',
+            'type' => 'Bottle',
+            'unit' => 'ขวด',
+            'current_stock' => 10,
+            'min_stock' => 2,
+        ]);
+
+        $res = $this->actingAs($this->admin)->post(route('transactions.stock_in.store'), [
+            'ink_id' => $ink->id,
+            'quantity' => 5,
+            'person_name' => 'ผู้รับเข้า',
+            'action_date' => now()->format('Y-m-d'),
+        ]);
+        $res->assertRedirect(route('transactions.index'));
+
+        $this->assertEquals(1, InkTransaction::count());
+
+        // Admin resets history
+        $response = $this->actingAs($this->admin)->post(route('transactions.reset_history'));
+        $response->assertRedirect(route('transactions.index'));
+        $response->assertSessionHas('success');
+
+        $this->assertEquals(0, InkTransaction::count());
     }
 }

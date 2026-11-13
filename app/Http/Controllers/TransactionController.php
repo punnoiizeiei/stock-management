@@ -107,10 +107,10 @@ class TransactionController extends Controller
                 'person_name' => $validated['person_name'],
                 'department_id' => $dept?->id,
                 'department_name' => $dept?->name ?? 'ฝ่ายจัดซื้อ/คลัง',
-                'reference_no' => $validated['reference_no'],
+                'reference_no' => $validated['reference_no'] ?? null,
                 'printer_target' => null,
                 'action_date' => $validated['action_date'],
-                'notes' => $validated['notes'],
+                'notes' => $validated['notes'] ?? null,
             ]);
 
             $ink->current_stock = $stockAfter;
@@ -175,10 +175,10 @@ class TransactionController extends Controller
                     'person_name' => $validated['person_name'],
                     'department_id' => $dept->id,
                     'department_name' => $dept->name,
-                    'reference_no' => $validated['reference_no'],
-                    'printer_target' => $validated['printer_target'],
+                    'reference_no' => $validated['reference_no'] ?? null,
+                    'printer_target' => $validated['printer_target'] ?? null,
                     'action_date' => $validated['action_date'],
-                    'notes' => $validated['notes'],
+                    'notes' => $validated['notes'] ?? null,
                 ]);
 
                 $ink->current_stock = $stockAfter;
@@ -199,6 +199,34 @@ class TransactionController extends Controller
         $transaction->load(['ink', 'department', 'user']);
 
         return view('transactions.slip', compact('transaction'));
+    }
+
+    public function resetHistory(Request $request): RedirectResponse
+    {
+        $driver = DB::getDriverName();
+
+        if ($driver === 'pgsql') {
+            DB::statement('TRUNCATE TABLE ink_transactions RESTART IDENTITY CASCADE');
+        } elseif ($driver === 'sqlite') {
+            DB::table('ink_transactions')->delete();
+            DB::statement("DELETE FROM sqlite_sequence WHERE name = 'ink_transactions'");
+        } else {
+            DB::table('ink_transactions')->truncate();
+        }
+
+        if ($request->boolean('reset_ink_stock')) {
+            Ink::query()->update(['current_stock' => 0]);
+        }
+
+        return redirect()->route('transactions.index')->with('success', 'ล้างประวัติการเบิก-รับหมึกพิมพ์ทั้งหมดเรียบร้อยแล้ว เลขที่เอกสารถูกรีเซ็ตกลับไปเริ่มต้นที่ 1');
+    }
+
+    public function destroy(InkTransaction $transaction): RedirectResponse
+    {
+        $code = $transaction->transaction_code;
+        $transaction->delete();
+
+        return redirect()->route('transactions.index')->with('success', "ลบรายการ {$code} เรียบร้อยแล้ว");
     }
 
     public function apiInkInfo(Ink $ink): JsonResponse
