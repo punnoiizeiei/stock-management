@@ -38,6 +38,16 @@ class Ink extends Model
         return $this->hasMany(InkTransaction::class)->orderBy('action_date', 'desc')->orderBy('id', 'desc');
     }
 
+    public function isLowStock(): bool
+    {
+        return $this->current_stock > 0 && $this->current_stock <= $this->min_stock;
+    }
+
+    public function isOutOfStock(): bool
+    {
+        return $this->current_stock <= 0;
+    }
+
     public function getStockStatusAttribute(): string
     {
         if ($this->current_stock <= 0) {

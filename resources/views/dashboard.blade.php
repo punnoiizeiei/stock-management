@@ -147,7 +147,7 @@
                                     </div>
                                     @if($ink->current_stock <= 0)
                                         <span class="badge bg-danger-subtle text-danger border border-danger-subtle">หมดสต็อก</span>
-                                    @elseif($ink->isLowStock())
+                                    @elseif($ink->current_stock <= $ink->min_stock)
                                         <span class="badge bg-warning-subtle text-warning border border-warning-subtle">ใกล้หมด</span>
                                     @else
                                         <span class="badge bg-success-subtle text-success border border-success-subtle">มีของพร้อมเบิก</span>

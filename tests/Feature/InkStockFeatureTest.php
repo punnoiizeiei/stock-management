@@ -37,11 +37,39 @@ class InkStockFeatureTest extends TestCase
 
     public function test_guest_can_access_dashboard_without_login(): void
     {
+        Ink::create([
+            'code' => 'DASH-01',
+            'name' => 'Epson 003 Black',
+            'brand' => 'Epson',
+            'model' => '003',
+            'color' => 'Black',
+            'color_code' => '#111827',
+            'type' => 'Bottle',
+            'unit' => 'ขวด',
+            'current_stock' => 10,
+            'min_stock' => 2,
+        ]);
+
+        Ink::create([
+            'code' => 'DASH-02',
+            'name' => 'Canon 790 Yellow',
+            'brand' => 'Canon',
+            'model' => '790',
+            'color' => 'Yellow',
+            'color_code' => '#facc15',
+            'type' => 'Bottle',
+            'unit' => 'ขวด',
+            'current_stock' => 1,
+            'min_stock' => 3,
+        ]);
+
         $response = $this->get(route('dashboard'));
 
         $response->assertStatus(200);
         $response->assertSee('ระบบจัดการสต็อกและเบิก-รับหมึก');
         $response->assertSee('พนักงานทุกคนสามารถตรวจสอบสต็อกและขอเบิกหมึก');
+        $response->assertSee('003');
+        $response->assertSee('790');
     }
 
     public function test_guest_can_view_inks_catalog(): void
