@@ -298,13 +298,13 @@
     </main>
 
     <!-- Footer -->
-    <footer class="py-3 text-center text-muted small">
+    <footer class="py-3 text-center text-muted small bg-white border-top mt-auto">
         <div class="container-fluid px-lg-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
             <div>
                 <strong>บริษัท บิ๊กล็อต โฮมโปรดักส์ จำกัด</strong> &copy; {{ date('Y') }} &bull; ระบบจัดการสต็อกและเบิก-รับหมึกพิมพ์
             </div>
-            <div>
-                พัฒนาด้วย Laravel {{ app()->version() }} &bull; PHP {{ PHP_VERSION }} &bull; SQLite
+            <div class="text-secondary">
+                Big Lot Home Products Co., Ltd. &bull; All Rights Reserved
             </div>
         </div>
     </footer>
