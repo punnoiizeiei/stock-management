@@ -270,4 +270,17 @@ class InkStockFeatureTest extends TestCase
 
         $this->assertEquals(0, InkTransaction::count());
     }
+
+    public function test_admin_can_access_backup_page_and_export_data(): void
+    {
+        $indexRes = $this->actingAs($this->admin)->get(route('backup.index'));
+        $indexRes->assertStatus(200);
+        $indexRes->assertSee('สำรองและกู้คืนข้อมูล');
+
+        $jsonRes = $this->actingAs($this->admin)->get(route('backup.export_json'));
+        $jsonRes->assertStatus(200);
+
+        $csvRes = $this->actingAs($this->admin)->get(route('backup.export_inks_csv'));
+        $csvRes->assertStatus(200);
+    }
 }

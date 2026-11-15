@@ -182,6 +182,11 @@
                                 <i class="bi bi-people-fill text-info me-1"></i> จัดการผู้ใช้
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('backup.*') ? 'active' : '' }}" href="{{ route('backup.index') }}">
+                                <i class="bi bi-cloud-arrow-down text-warning me-1"></i> สำรองข้อมูล
+                            </a>
+                        </li>
                     @endif
                 </ul>
 
@@ -230,6 +235,11 @@
                                 <li>
                                     <a class="dropdown-item rounded-2 py-2 small" href="{{ route('users.index') }}">
                                         <i class="bi bi-people-fill me-2 text-primary"></i> จัดการผู้ใช้งาน
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item rounded-2 py-2 small" href="{{ route('backup.index') }}">
+                                        <i class="bi bi-cloud-arrow-down me-2 text-warning"></i> สำรอง & กู้คืนข้อมูล
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\InkController;
@@ -62,6 +63,13 @@ Route::middleware('admin')->group(function () {
 
     // Admin Users Management
     Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);
+
+    // Backup & Restore (สำรองและกู้คืนข้อมูล)
+    Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
+    Route::get('/backup/export-json', [BackupController::class, 'exportJson'])->name('backup.export_json');
+    Route::get('/backup/export-inks-csv', [BackupController::class, 'exportInksCsv'])->name('backup.export_inks_csv');
+    Route::get('/backup/export-transactions-csv', [BackupController::class, 'exportTransactionsCsv'])->name('backup.export_transactions_csv');
+    Route::post('/backup/restore', [BackupController::class, 'restore'])->name('backup.restore');
 });
 
 // View Specific Ink & Slips (placed after specific routes)
