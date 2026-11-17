@@ -27,7 +27,6 @@ Route::get('/transactions', [TransactionController::class, 'index'])->name('tran
 
 // Inks Catalog (ดูสต็อกหมึกคงเหลือ & เครื่องพิมพ์ที่รองรับ)
 Route::get('/inks', [InkController::class, 'index'])->name('inks.index');
-Route::get('/api/inks/{ink}', [TransactionController::class, 'apiInkInfo'])->name('api.inks.info');
 
 // Admin Login (เฉพาะเจ้าหน้าที่ / แอดมิน)
 Route::middleware('guest')->group(function () {

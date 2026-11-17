@@ -6,7 +6,6 @@ use App\Models\Department;
 use App\Models\Ink;
 use App\Models\InkTransaction;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -227,25 +226,5 @@ class TransactionController extends Controller
         $transaction->delete();
 
         return redirect()->route('transactions.index')->with('success', "ลบรายการ {$code} เรียบร้อยแล้ว");
-    }
-
-    public function apiInkInfo(Ink $ink): JsonResponse
-    {
-        return response()->json([
-            'id' => $ink->id,
-            'code' => $ink->code,
-            'name' => $ink->name,
-            'brand' => $ink->brand,
-            'model' => $ink->model,
-            'color' => $ink->color,
-            'color_code' => $ink->color_code,
-            'unit' => $ink->unit,
-            'current_stock' => $ink->current_stock,
-            'min_stock' => $ink->min_stock,
-            'location' => $ink->location,
-            'compatible_printers' => $ink->compatible_printers,
-            'stock_status' => $ink->stock_status,
-            'status_label' => $ink->status_label,
-        ]);
     }
 }

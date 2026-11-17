@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
 use App\Models\Ink;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,10 +43,8 @@ class InkController extends Controller
         $inks = $query->orderBy('brand')->orderBy('model')->paginate(12)->withQueryString();
 
         $brands = Ink::distinct()->orderBy('brand')->pluck('brand');
-        $departments = Department::orderBy('name')->get();
-        $allInks = Ink::orderBy('brand')->orderBy('model')->get();
 
-        return view('inks.index', compact('inks', 'brands', 'departments', 'allInks'));
+        return view('inks.index', compact('inks', 'brands'));
     }
 
     public function create(): View
@@ -95,9 +92,8 @@ class InkController extends Controller
     public function show(Ink $ink): View
     {
         $transactions = $ink->transactions()->with('department')->paginate(10);
-        $departments = Department::orderBy('name')->get();
 
-        return view('inks.show', compact('ink', 'transactions', 'departments'));
+        return view('inks.show', compact('ink', 'transactions'));
     }
 
     public function edit(Ink $ink): View
